@@ -1,9 +1,10 @@
 import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
+import importPlugin from "eslint-plugin-import";
+import pluginReact from "eslint-plugin-react";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
   {
@@ -28,6 +29,36 @@ export default defineConfig([
       react: {
         version: "detect",
       },
+    },
+  },
+  {
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    plugins: { import: importPlugin },
+    rules: {
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object",
+            "type",
+          ],
+          alphabetize: { order: "asc", caseInsensitive: true },
+        },
+      ],
+      "no-unused-vars": "error",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-var": "error",
+      "object-curly-spacing": ["error", "always"],
+      "no-trailing-spaces": "error",
+      "prefer-arrow-callback": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "error",
     },
   },
   prettier,
