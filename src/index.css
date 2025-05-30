@@ -1,5 +1,9 @@
 :root {
-  font-family: sans-serif, helvetica;
+  font-family:
+    SF Pro Display,
+    SF Compact Display,
+    Arial;
+  background-color: var(--neutral-color-5);
 
   /* Display */
   /* XL */

@@ -1,12 +1,8 @@
-import './App.css'
+import "./App.css";
+import DashboardPage from "./pages/dashboard-page/dashboard-page";
 
 function App() {
-
-  return (
-    <>
-
-    </>
-  )
+  return <DashboardPage />;
 }
 
-export default App
+export default App;
