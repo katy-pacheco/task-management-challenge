@@ -16,6 +16,11 @@
     }
   },
   "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "eslint --max-warnings=0"
+    ],
     "*": "prettier --write"
   },
   "dependencies": {
