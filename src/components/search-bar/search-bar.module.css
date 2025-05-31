@@ -1,0 +1,44 @@
+.form {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 296px;
+  right: 38px;
+  top: 32px;
+  height: 64px;
+  background: var(--neutral-color-4);
+  border-radius: 16px;
+  padding: 0 20px;
+}
+
+.formInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--neutral-color-1);
+  font-size: var(--body-m-size);
+  line-height: var(--body-m-line-height);
+  font-weight: var(--body-weight-regular);
+  letter-spacing: var(--body-letter-spacing);
+  padding: 0 16px;
+}
+
+.formIcon {
+  color: var(--neutral-color-2);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.formIconContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.formAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
