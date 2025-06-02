@@ -1,0 +1,47 @@
+.topBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4px 0px;
+  gap: 29px;
+
+  position: absolute;
+  height: 48px;
+  left: 296px;
+  right: 36px;
+  top: 128px;
+}
+
+.topBarButton {
+  width: 40px;
+  height: 40px;
+
+  background: none;
+  border: none;
+  color: var(--neutral-color-1);
+}
+
+.topBarButton.selected {
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-4);
+  color: var(--primary-color-4);
+}
+
+.topBarButtonAdd {
+  width: 40px;
+  height: 40px;
+
+  background: var(--primary-color-4);
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--neutral-color-1);
+
+  padding: 0;
+  margin: 0;
+  border: none;
+}
