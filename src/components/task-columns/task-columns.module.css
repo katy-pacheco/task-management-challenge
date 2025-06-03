@@ -1,0 +1,28 @@
+.taskListColumnStatus {
+  margin-top: 8px;
+  color: var(--neutral-color-1);
+  font-size: var(--body-l-size);
+  line-height: var(--body-l-line-height);
+  letter-spacing: var(--body-letter-spacing);
+  font-weight: var(--body-weight-bold);
+}
+
+.taskList {
+  display: flex;
+  gap: 32px;
+
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.taskListColumn {
+  width: 348px;
+  flex: none;
+  overflow-y: auto;
+  height: 548px;
+}
+
+.taskList::-webkit-scrollbar,
+.taskListColumn::-webkit-scrollbar {
+  background: transparent;
+}

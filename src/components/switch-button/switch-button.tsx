@@ -1,11 +1,11 @@
 import { RiGalleryView2, RiMenuLine } from "@remixicon/react";
 import styles from "./switch-button.module.css";
 
-type SwitchButtonProps = {
+interface SwitchButtonProps {
   selectedItem: number | null;
   // eslint-disable-next-line no-unused-vars
   onChange: (_: number) => void;
-};
+}
 
 export default function SwitchButton({
   selectedItem,
