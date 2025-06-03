@@ -1,5 +1,6 @@
-import { RiAddLine, RiGalleryView2, RiMenuLine } from "@remixicon/react";
+import { RiAddLine } from "@remixicon/react";
 import { useState } from "react";
+import SwitchButton from "../switch-button/switch-button";
 import styles from "./main-content.module.css";
 
 const status = [
@@ -11,30 +12,13 @@ const status = [
 ];
 
 export default function MainContent() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(1);
+  const [viewMode, setViewMode] = useState<number | null>(1);
 
   return (
     <div className={styles.mainContent}>
       {/* Topbar */}
       <div role="toolbar" aria-label="Top bar" className={styles.topBar}>
-        <div className={styles.topBarViews}>
-          <button
-            type="button"
-            aria-label="tree view"
-            onClick={() => setSelectedItem(0)}
-            className={`${styles.topBarButton} ${selectedItem === 0 ? styles.selected : ""}`}
-          >
-            <RiMenuLine />
-          </button>
-          <button
-            type="button"
-            aria-label="dashboard view"
-            onClick={() => setSelectedItem(1)}
-            className={`${styles.topBarButton} ${selectedItem === 1 ? styles.selected : ""}`}
-          >
-            <RiGalleryView2 />
-          </button>
-        </div>
+        <SwitchButton selectedItem={viewMode} onChange={setViewMode} />
         <button
           type="button"
           aria-label="Add task"
@@ -48,7 +32,7 @@ export default function MainContent() {
         {status.map((item, index) => (
           <div className={styles.taskListColumn} key={index}>
             <h2 className={styles.taskListColumnStatus}>{item.label} (02)</h2>
-            {selectedItem === 1 && <p>No tasks in {item.label}</p>}
+            {viewMode === 1 && <p>No tasks in {item.label}</p>}
           </div>
         ))}
       </div>

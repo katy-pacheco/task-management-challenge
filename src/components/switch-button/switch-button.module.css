@@ -1,0 +1,14 @@
+.topBarButton {
+  width: 40px;
+  height: 40px;
+
+  background: none;
+  border: none;
+  color: var(--neutral-color-1);
+}
+
+.topBarButton.selected {
+  border-radius: 8px;
+  border: 1px solid var(--primary-color-4);
+  color: var(--primary-color-4);
+}
