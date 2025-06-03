@@ -1,3 +1,4 @@
+import TaskCard from "../task-card/task-card";
 import styles from "./task-columns.module.css";
 
 interface TaskColumnsProp {
@@ -18,7 +19,16 @@ export default function TaskColumns({ viewMode }: TaskColumnsProp) {
       {status.map((item, index) => (
         <div className={styles.taskListColumn} key={index}>
           <h2 className={styles.taskListColumnStatus}>{item.label} (02)</h2>
-          {viewMode === 1 && <p>No tasks in {item.label}</p>}
+          {viewMode === 1 ? (
+            <TaskCard
+              title={"Twitter"}
+              pointEstimate={"3"}
+              dueDate={"Today"}
+              taskTags={["IOS", "LABEL", "ANDROID", "RAILS", "REACT"]}
+            />
+          ) : (
+            viewMode === 0 && <p>No tasks in {item.label}</p>
+          )}
         </div>
       ))}
     </div>
