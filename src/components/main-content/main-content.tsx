@@ -19,7 +19,6 @@ export default function MainContent() {
       {/* Topbar */}
       <div role="toolbar" aria-label="Top bar" className={styles.topBar}>
         <SwitchButton selectedItem={viewMode} onChange={setViewMode} />
-
         <button
           type="button"
           aria-label="Add task"

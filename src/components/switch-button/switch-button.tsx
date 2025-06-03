@@ -3,6 +3,7 @@ import styles from "./switch-button.module.css";
 
 type SwitchButtonProps = {
   selectedItem: number | null;
+  // eslint-disable-next-line no-unused-vars
   onChange: (_: number) => void;
 };
 
