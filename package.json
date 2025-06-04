@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "husky": {
     "hooks": {
@@ -24,7 +25,9 @@
     "*": "prettier --write"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@remixicon/react": "^4.6.0",
+    "graphql": "^16.11.0",
     "husky": "^9.1.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -34,9 +37,14 @@
   "devDependencies": {
     "@eslint/js": "^9.27.0",
     "@faker-js/faker": "^9.8.0",
+    "@graphql-codegen/cli": "^5.0.6",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.1",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "dotenv": "^16.5.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.31.0",
