@@ -4,14 +4,24 @@ import {
   RiMoreLine,
   RiNodeTree,
 } from "@remixicon/react";
+import { formatDueDate } from "../../utils/format-date";
 import { getColorTask } from "../../utils/get-color-task";
 import Avatar from "../avatar/avatar";
 import Chip from "../chip/chip";
 import styles from "./task-card.module.css";
+import type { PointEstimate } from "../../types/graphql";
+
+const pointEstimateMap: Record<PointEstimate, string> = {
+  ZERO: "0",
+  ONE: "1",
+  TWO: "2",
+  FOUR: "4",
+  EIGHT: "8",
+};
 
 interface TaskProps {
   title: string;
-  pointEstimate: string;
+  pointEstimate: PointEstimate;
   dueDate: string;
   taskTags: string[];
 }
@@ -29,8 +39,13 @@ export default function TaskCard({
         <RiMoreLine />
       </div>
       <div className={styles.cardDetails}>
-        <p>{pointEstimate} Pts</p>
-        <Chip label={dueDate} variant={"solid"} icon="icon" color="default" />
+        <p>{pointEstimateMap[pointEstimate]} Pts</p>
+        <Chip
+          label={formatDueDate(dueDate)}
+          variant={"solid"}
+          icon="icon"
+          color="default"
+        />
       </div>
       <div className={styles.cardTags}>
         {taskTags &&

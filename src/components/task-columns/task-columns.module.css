@@ -1,6 +1,5 @@
 .taskListColumnStatus {
   margin-top: 8px;
-  color: var(--neutral-color-1);
   font-size: var(--body-l-size);
   line-height: var(--body-l-line-height);
   letter-spacing: var(--body-letter-spacing);
@@ -10,13 +9,18 @@
 .taskList {
   display: flex;
   gap: 32px;
-
+  color: var(--neutral-color-1);
   overflow-x: auto;
   scroll-behavior: smooth;
 }
 
+.taskCardWrapper {
+  margin-bottom: 16px;
+}
+
 .taskListColumn {
-  width: 348px;
+  width: 364px;
+  margin-bottom: 16px;
   flex: none;
   overflow-y: auto;
   height: 548px;
