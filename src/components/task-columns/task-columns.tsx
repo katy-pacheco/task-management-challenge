@@ -2,6 +2,7 @@ import {
   useGetTasksQuery,
   type Task,
 } from "../../graphql/queries/get-task.graphql.generated";
+import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
 import TaskCard from "../task-card/task-card";
 import styles from "./task-columns.module.css";
 
@@ -9,7 +10,7 @@ interface TaskColumnsProp {
   viewMode: number | null;
 }
 
-const status = [
+export const status = [
   { label: "Backlog", value: "BACKLOG" },
   { label: "Todo", value: "TODO" },
   { label: "In Progress", value: "IN_PROGRESS" },
@@ -21,7 +22,7 @@ export default function TaskColumns({ viewMode }: TaskColumnsProp) {
   const { data, loading, error } = useGetTasksQuery();
   const tasks: Task[] = data?.tasks ?? [];
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <SkeletonKanbanBoard />;
   if (error) return <p>Error :</p>;
 
   return (

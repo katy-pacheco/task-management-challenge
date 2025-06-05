@@ -17,3 +17,25 @@
   width: 48px;
   height: 48px;
 }
+
+.avatarContainer {
+  display: "inline-block";
+  position: "relative";
+}
+
+.avatarSkeleton {
+  background-color: var(--neutral-color-3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

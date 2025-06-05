@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  gap: 32px;
+  padding: 16px 0;
+  overflow-x: auto;
+  background: transparent;
+}
+
+.column {
+  width: 328px;
+  height: 548px;
+  border-radius: 8px;
+  background: var(--neutral-color-4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  height: 160px;
+  border-radius: 8px;
+  background-color: var(--neutral-color-3);
+  animation: pulse 1.5s infinite;
+  padding: 14px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
