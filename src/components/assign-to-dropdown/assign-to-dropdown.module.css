@@ -1,0 +1,102 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.assigneeButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+
+  background-color: rgba(148, 151, 154, 0.1);
+  color: var(--neutral-color-1);
+  font-weight: var(--body-weight-bold);
+  font-size: var(--body-m-size);
+  letter-spacing: var(--body-letter-spacing);
+  min-height: 32px;
+  max-height: 32px;
+  overflow: hidden;
+}
+
+.buttonAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.optionsList {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: var(--neutral-color-3);
+  border-radius: 8px;
+  border: 1px solid var(--neutral-color-2);
+  padding: 15px 0;
+  width: 238px;
+  color: var(--neutral-color-1);
+  list-style: none;
+  margin: 0;
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdownTitle {
+  display: block;
+  color: var(--neutral-color-2);
+  font-size: var(--body-xl-size);
+  letter-spacing: var(--body-letter-spacing);
+  font-weight: var(--body-weight-bold);
+  padding: 0px 16px;
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+.option {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.option:focus {
+  outline: none;
+}
+
+.activeOption {
+  background-color: rgba(148, 151, 154, 0.1);
+}
+
+.selectedOption {
+  background-color: #94979a31;
+  font-weight: var(--body-weight-bold);
+}
+
+.personInfo {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.personName {
+  font-size: 0.95em;
+  font-weight: 500;
+  color: var(--neutral-color-1);
+}
