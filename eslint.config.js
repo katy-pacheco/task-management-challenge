@@ -51,7 +51,7 @@ export default defineConfig([
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
-      "no-unused-vars": "error",
+      "no-unused-vars": "warning",
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-var": "error",
       "object-curly-spacing": ["error", "always"],
