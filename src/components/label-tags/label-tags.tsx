@@ -11,6 +11,11 @@ import { RiAddFill, RiPriceTag3Fill } from "@remixicon/react";
 import { TaskTag } from "../../types/graphql";
 import { getTaskTagLabel } from "../../utils/get-task-tag-label";
 
+interface LabelTagsProps {
+  value: TaskTag[];
+  onChange: (selected: TaskTag[]) => void;
+}
+
 const initialLabels = [
   TaskTag.Android,
   TaskTag.Ios,
@@ -19,8 +24,7 @@ const initialLabels = [
   TaskTag.React,
 ];
 
-export default function LabelTags() {
-  const [selectedLabels, setSelectedLabels] = useState([]);
+export default function LabelTags({ value, onChange }: LabelTagsProps) {
   const [query, setQuery] = useState("");
 
   const filteredLabels =
@@ -36,28 +40,34 @@ export default function LabelTags() {
 
   return (
     <div className={styles.wrapper}>
-      <Combobox multiple value={selectedLabels} onChange={setSelectedLabels}>
+      <Combobox value={value} onChange={onChange} multiple>
         {({ open }) => (
-          <>
+          <div className={styles.comboboxWrapper}>
             <ComboboxButton className={styles.comboboxButton}>
               <RiPriceTag3Fill />
               Label
             </ComboboxButton>
+
             {open && (
               <div className={styles.comboboxInputWrapper}>
                 <ComboboxInput
                   className={styles.comboboxInput}
-                  displayValue={(labels) => labels.join(", ")}
+                  displayValue={(labels) =>
+                    Array.isArray(labels) ? labels.join(", ") : ""
+                  }
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Tag Title"
                 />
 
-                <ComboboxOptions className="">
+                <ComboboxOptions as="ul" className={styles.optionsList}>
                   {query !== "" && !isQueryExisting && (
                     <ComboboxOption
+                      as="li"
                       value={query}
                       className={({ active }) =>
-                        `${styles.option} ${styles.createNewOption} ${active ? styles.activeOption : ""}`
+                        `${styles.option} ${styles.createNewOption} ${
+                          active ? styles.activeOption : ""
+                        }`
                       }
                     >
                       <div className={styles.createNewContent}>
@@ -68,19 +78,21 @@ export default function LabelTags() {
                       </div>
                     </ComboboxOption>
                   )}
-                  {filteredLabels.length === 0 &&
-                  query !== "" &&
-                  isQueryExisting ? (
-                    <div className={styles.noResults}>
+
+                  {filteredLabels.length === 0 && query !== "" ? (
+                    <li className={styles.noResults}>
                       No matching labels found.
-                    </div>
+                    </li>
                   ) : (
                     filteredLabels.map((label) => (
                       <ComboboxOption
+                        as="li"
                         key={label}
                         value={label}
                         className={({ active, selected }) =>
-                          `${styles.option} ${active ? styles.activeOption : ""} ${selected ? styles.selectedOption : ""}`
+                          `${styles.option} ${
+                            active ? styles.activeOption : ""
+                          } ${selected ? styles.selectedOption : ""}`
                         }
                       >
                         {({ selected }) => (
@@ -102,7 +114,7 @@ export default function LabelTags() {
                 </ComboboxOptions>
               </div>
             )}
-          </>
+          </div>
         )}
       </Combobox>
     </div>

@@ -10,7 +10,7 @@ interface TaskColumnsProp {
   viewMode: number | null;
 }
 
-export const status = [
+const status = [
   { label: "Backlog", value: "BACKLOG" },
   { label: "Todo", value: "TODO" },
   { label: "In Progress", value: "IN_PROGRESS" },
