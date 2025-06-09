@@ -16,12 +16,18 @@
 
   background-color: rgba(148, 151, 154, 0.1);
   color: var(--neutral-color-1);
+  max-height: 32px;
+  overflow: hidden;
+}
+
+.assigneeFullName {
+  white-space: nowrap;
+}
+
+.assigneeButtonTitle {
   font-weight: var(--body-weight-bold);
   font-size: var(--body-m-size);
   letter-spacing: var(--body-letter-spacing);
-  min-height: 32px;
-  max-height: 32px;
-  overflow: hidden;
 }
 
 .buttonAvatar {
@@ -29,7 +35,7 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 8px;
+  margin-bottom: 4px;
 }
 
 .optionsList {

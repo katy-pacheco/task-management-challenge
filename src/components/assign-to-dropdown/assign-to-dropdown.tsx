@@ -52,12 +52,14 @@ export default function AssignToDropdown({
                 alt={selectedPerson.fullName}
                 className={styles.buttonAvatar}
               />
-              <span>{selectedPerson.fullName}</span>
+              <span className={styles.assigneeFullName}>
+                {selectedPerson.fullName}
+              </span>
             </>
           ) : (
             <>
               <RiUser3Fill />
-              <span>Assignee</span>
+              <span className={styles.assigneeButtonTitle}>Assignee</span>
             </>
           )}
         </ListboxButton>
