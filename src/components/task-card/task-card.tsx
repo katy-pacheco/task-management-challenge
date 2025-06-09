@@ -9,7 +9,9 @@ import { getColorTask } from "../../utils/get-color-task";
 import Avatar from "../avatar/avatar";
 import Chip from "../chip/chip";
 import styles from "./task-card.module.css";
-import type { PointEstimate } from "../../types/graphql";
+import type { PointEstimate, TaskTag } from "../../types/graphql";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { getTaskTagLabel } from "../../utils/get-task-tag-label";
 
 const pointEstimateMap: Record<PointEstimate, string> = {
   ZERO: "0",
@@ -23,7 +25,9 @@ interface TaskProps {
   title: string;
   pointEstimate: PointEstimate;
   dueDate: string;
-  taskTags: string[];
+  taskTags: TaskTag[];
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export default function TaskCard({
@@ -31,12 +35,43 @@ export default function TaskCard({
   pointEstimate,
   dueDate,
   taskTags,
+  onEdit,
+  onDelete,
 }: TaskProps) {
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>
         <h3>{title}</h3>
-        <RiMoreLine />
+        <Menu as="div" className={styles.menuContainer}>
+          <MenuButton as="div" className={styles.moreButton}>
+            <RiMoreLine size={"24"} />
+          </MenuButton>
+          <MenuItems className={styles.menuItems}>
+            <MenuItem>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEdit?.();
+                }}
+                className={`${styles.menuItem}`}
+              >
+                Edit
+              </button>
+            </MenuItem>
+            <MenuItem>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.();
+                }}
+                className={`${styles.menuItem} `}
+              >
+                Delete
+              </button>
+            </MenuItem>
+          </MenuItems>
+        </Menu>
       </div>
       <div className={styles.cardDetails}>
         <p>{pointEstimateMap[pointEstimate]} Pts</p>
@@ -52,7 +87,7 @@ export default function TaskCard({
           taskTags.map((task, index) => (
             <Chip
               key={index}
-              label={task}
+              label={getTaskTagLabel(task)}
               variant={"solid"}
               color={getColorTask(task)}
             />

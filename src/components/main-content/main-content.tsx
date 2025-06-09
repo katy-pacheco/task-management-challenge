@@ -12,10 +12,12 @@ export default function MainContent() {
   const [openModal, setOpenModal] = useState(false);
   const [createTask] = useCreateTaskMutation();
 
-  const handleSubmit = async (
-    data: CreateTaskInput | Omit<UpdateTaskInput, "id">,
-  ) => {
+  const handleSubmit = async (data: CreateTaskInput | UpdateTaskInput) => {
     try {
+      // If the data contains an id, it means it's an update operation
+      if ("id" in data) {
+        return;
+      }
       await createTask({
         variables: {
           input: {

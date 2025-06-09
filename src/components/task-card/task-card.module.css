@@ -93,3 +93,8 @@
   width: 16px;
   height: 16px;
 }
+
+.moreButton {
+  color: var(--neutral-color-2);
+  background: transparent;
+}

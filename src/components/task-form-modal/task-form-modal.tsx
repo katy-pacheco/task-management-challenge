@@ -37,7 +37,7 @@ interface TaskFormProps {
   onClose: () => void;
   mode: "create" | "edit";
   task?: Task;
-  onSubmit: (data: CreateTaskInput | Omit<UpdateTaskInput, "id">) => void;
+  onSubmit: (data: CreateTaskInput | UpdateTaskInput) => void;
 }
 
 export default function TaskFormModal({

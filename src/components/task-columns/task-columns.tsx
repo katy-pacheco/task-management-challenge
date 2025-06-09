@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   useGetTasksQuery,
   type Task,
@@ -5,6 +6,10 @@ import {
 import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
 import TaskCard from "../task-card/task-card";
 import styles from "./task-columns.module.css";
+import TaskFormModal from "../task-form-modal/task-form-modal";
+import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
+import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
+import type { UpdateTaskInput } from "../../types/graphql";
 
 interface TaskColumnsProp {
   viewMode: number | null;
@@ -19,8 +24,48 @@ const status = [
 ];
 
 export default function TaskColumns({ viewMode }: TaskColumnsProp) {
-  const { data, loading, error } = useGetTasksQuery();
+  const { data, loading, error, refetch } = useGetTasksQuery();
   const tasks: Task[] = data?.tasks ?? [];
+  const [updateTask] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
+
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | undefined>(undefined);
+
+  const handleEdit = (task: Task) => {
+    setSelectedTask(task);
+    setOpenModal(true);
+  };
+
+  const handleSubmit = async (data: Omit<UpdateTaskInput, "id">) => {
+    if (!selectedTask) return;
+    try {
+      await updateTask({
+        variables: {
+          input: {
+            id: selectedTask.id,
+            ...data,
+          },
+        },
+      });
+      setOpenModal(false);
+    } catch (err) {
+      console.error("Error updating task", err);
+    }
+  };
+
+  const handleDelete = async (task: Task) => {
+    try {
+      await deleteTask({
+        variables: {
+          input: { id: task.id },
+        },
+      });
+      await refetch();
+    } catch (err) {
+      console.error("Error deleting task", err);
+    }
+  };
 
   if (loading) return <SkeletonKanbanBoard />;
   if (error) return <p>Error :</p>;
@@ -46,6 +91,8 @@ export default function TaskColumns({ viewMode }: TaskColumnsProp) {
                         pointEstimate={task.pointEstimate}
                         dueDate={task.dueDate}
                         taskTags={task.tags}
+                        onEdit={() => handleEdit(task)}
+                        onDelete={() => handleDelete(task)}
                       />
                     </div>
                   ))
@@ -59,6 +106,13 @@ export default function TaskColumns({ viewMode }: TaskColumnsProp) {
           </div>
         );
       })}
+      <TaskFormModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        mode="edit"
+        task={selectedTask}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }
