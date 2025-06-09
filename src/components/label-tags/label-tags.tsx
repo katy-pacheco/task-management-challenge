@@ -44,8 +44,20 @@ export default function LabelTags({ value, onChange }: LabelTagsProps) {
         {({ open }) => (
           <div className={styles.comboboxWrapper}>
             <ComboboxButton className={styles.comboboxButton}>
-              <RiPriceTag3Fill />
-              Label
+              {value.length > 0 ? (
+                <div className={styles.selectedTagsContainer}>
+                  {value.map((tag) => (
+                    <span key={tag} className={styles.selectedTag}>
+                      {getTaskTagLabel(tag)}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.placeholder}>
+                  <RiPriceTag3Fill />
+                  Label
+                </div>
+              )}
             </ComboboxButton>
 
             {open && (
@@ -53,7 +65,9 @@ export default function LabelTags({ value, onChange }: LabelTagsProps) {
                 <ComboboxInput
                   className={styles.comboboxInput}
                   displayValue={(labels) =>
-                    Array.isArray(labels) ? labels.join(", ") : ""
+                    Array.isArray(labels)
+                      ? labels.map((label) => getTaskTagLabel(label)).join(", ")
+                      : ""
                   }
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Tag Title"
@@ -64,11 +78,7 @@ export default function LabelTags({ value, onChange }: LabelTagsProps) {
                     <ComboboxOption
                       as="li"
                       value={query}
-                      className={({ active }) =>
-                        `${styles.option} ${styles.createNewOption} ${
-                          active ? styles.activeOption : ""
-                        }`
-                      }
+                      className={styles.option}
                     >
                       <div className={styles.createNewContent}>
                         <RiAddFill />
@@ -89,10 +99,8 @@ export default function LabelTags({ value, onChange }: LabelTagsProps) {
                         as="li"
                         key={label}
                         value={label}
-                        className={({ active, selected }) =>
-                          `${styles.option} ${
-                            active ? styles.activeOption : ""
-                          } ${selected ? styles.selectedOption : ""}`
+                        className={({ selected }) =>
+                          `${selected ? styles.selectedOption : ""}`
                         }
                       >
                         {({ selected }) => (
