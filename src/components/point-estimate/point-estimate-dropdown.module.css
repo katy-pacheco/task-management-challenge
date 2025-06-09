@@ -22,6 +22,9 @@
 
   background-color: rgba(148, 151, 154, 0.1);
   color: var(--neutral-color-1);
+}
+
+.dropdownMenuButtonTitle {
   font-weight: var(--body-weight-bold);
   font-size: var(--body-m-size);
   letter-spacing: var(--body-letter-spacing);

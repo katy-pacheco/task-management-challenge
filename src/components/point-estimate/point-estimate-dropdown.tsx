@@ -5,7 +5,7 @@ import { getPointEstimateNumeric } from "../../utils/get-point-estimate-numeric"
 import { RiIncreaseDecreaseFill } from "@remixicon/react";
 
 interface PointEstimateDropdownProps {
-  value: PointEstimate;
+  value: PointEstimate | null;
   onChange: (value: PointEstimate) => void;
 }
 
@@ -26,7 +26,11 @@ export default function PointEstimateDropdown({
       <Menu as="div" className={styles.dropdownMenu}>
         <MenuButton className={styles.dropdownMenuButton}>
           <RiIncreaseDecreaseFill />
-          Estimate
+          {value === null || !options.includes(value) ? (
+            <span className={styles.dropdownMenuButtonTitle}>Estimate</span>
+          ) : (
+            `${getPointEstimateNumeric(value)} Points`
+          )}
         </MenuButton>
         <MenuItems className={styles.dropdownMenuItems}>
           <span>Estimate</span>

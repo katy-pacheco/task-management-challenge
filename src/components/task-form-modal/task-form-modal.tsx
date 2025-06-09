@@ -87,7 +87,7 @@ export default function TaskFormModal({
         id: undefined,
         name: "",
         dueDate: undefined,
-        pointEstimate: PointEstimate.Zero,
+        pointEstimate: undefined,
         status: Status.Backlog,
         tags: [],
         assigneeId: undefined,
@@ -122,12 +122,17 @@ export default function TaskFormModal({
     reset();
   };
 
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
   const openDatePicker = () => {
     datePickerRef.current?.setOpen(true);
   };
 
   return (
-    <ModalRoot open={open} onClose={onClose}>
+    <ModalRoot open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <ModalHeader>
           <input
@@ -213,13 +218,7 @@ export default function TaskFormModal({
 
         <ModalFooter>
           <div>
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                reset();
-              }}
-            >
+            <button type="button" onClick={handleClose}>
               Cancel
             </button>
             <button type="submit">
