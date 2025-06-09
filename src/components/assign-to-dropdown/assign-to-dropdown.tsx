@@ -6,14 +6,20 @@ import {
 } from "@headlessui/react";
 import styles from "./assign-to-dropdown.module.css";
 import { RiUser3Fill } from "@remixicon/react";
-import { useState } from "react";
 import type { User } from "../../types/graphql";
 import { useGetUsersQuery } from "../../graphql/queries/get-users.graphql.generated";
 
-export default function AssignToDropdown() {
-  const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
+interface AssignToDropdownProps {
+  value?: string; // assigneeId
+  onChange: (assigneeId: string) => void;
+}
 
+export default function AssignToDropdown({
+  value,
+  onChange,
+}: AssignToDropdownProps) {
   const { data, loading, error } = useGetUsersQuery();
+  const selectedPerson = data?.users.find((user) => user.id === value);
 
   const getValidAvatar = (user: User) => {
     const fallback = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(user.fullName)}`;
@@ -26,12 +32,18 @@ export default function AssignToDropdown() {
     return user.avatar;
   };
 
-  if (loading) return <p>Loading...</p>;
+  function handleUserChange(user: User | null) {
+    if (user) {
+      onChange(user.id);
+    }
+  }
+
+  if (loading || !data?.users) return null;
   if (error) return <p>Error loading users</p>;
 
   return (
     <div className={styles.wrapper}>
-      <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+      <Listbox value={selectedPerson ?? null} onChange={handleUserChange}>
         <ListboxButton className={styles.assigneeButton}>
           {selectedPerson ? (
             <>
