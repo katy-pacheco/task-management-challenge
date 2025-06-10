@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import {
-  useGetTasksQuery,
-  type Task,
-} from "../../graphql/queries/get-task.graphql.generated";
+import { type Task } from "../../graphql/queries/get-task.graphql.generated";
 import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
 import TaskCard from "../task-card/task-card";
 import styles from "./task-columns.module.css";
 import TaskFormModal from "../task-form-modal/task-form-modal";
 import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
 import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
-import type { Status, UpdateTaskInput } from "../../types/graphql";
+import type {
+  FilterTaskInput,
+  Status,
+  UpdateTaskInput,
+} from "../../types/graphql";
 import TaskListView from "../task-list-view/task-list-view";
 import {
   DndContext,
@@ -22,9 +23,11 @@ import {
 } from "@dnd-kit/core";
 import Draggable from "../draggable/draggable";
 import { Droppable } from "../droppable/droppable";
+import { useGetFilterTasksQuery } from "../../graphql/queries/filter-task.graphql.generated";
 
 interface TaskColumnsProp {
   viewMode: number | null;
+  filters: FilterTaskInput;
 }
 
 const status = [
@@ -35,8 +38,10 @@ const status = [
   { label: "Cancelled", value: "CANCELLED" },
 ];
 
-export default function TaskColumns({ viewMode }: TaskColumnsProp) {
-  const { data, loading, error, refetch } = useGetTasksQuery();
+export default function TaskColumns({ viewMode, filters }: TaskColumnsProp) {
+  const { data, loading, error, refetch } = useGetFilterTasksQuery({
+    variables: { input: filters },
+  });
   const [tasks, setTasks] = useState<Task[]>([]);
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();

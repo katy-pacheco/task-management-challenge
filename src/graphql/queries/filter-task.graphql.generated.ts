@@ -147,52 +147,72 @@ export enum UserType {
 }
 
 
-export const GetUsersDocument = gql`
-    query getUsers {
-  users {
+export const GetFilterTasksDocument = gql`
+    query getFilterTasks($input: FilterTaskInput!) {
+  tasks(input: $input) {
     id
-    fullName
-    email
-    avatar
-    type
+    name
+    pointEstimate
+    position
+    assignee {
+      id
+      fullName
+      createdAt
+      email
+      type
+      updatedAt
+    }
     createdAt
-    updatedAt
+    creator {
+      id
+      fullName
+      createdAt
+      email
+      type
+      updatedAt
+    }
+    status
+    dueDate
+    tags
   }
 }
     `;
 
 /**
- * __useGetUsersQuery__
+ * __useGetFilterTasksQuery__
  *
- * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFilterTasksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFilterTasksQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUsersQuery({
+ * const { data, loading, error } = useGetFilterTasksQuery({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+export function useGetFilterTasksQuery(baseOptions: Apollo.QueryHookOptions<GetFilterTasksQuery, GetFilterTasksQueryVariables> & ({ variables: GetFilterTasksQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        return Apollo.useQuery<GetFilterTasksQuery, GetFilterTasksQueryVariables>(GetFilterTasksDocument, options);
       }
-export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+export function useGetFilterTasksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFilterTasksQuery, GetFilterTasksQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+          return Apollo.useLazyQuery<GetFilterTasksQuery, GetFilterTasksQueryVariables>(GetFilterTasksDocument, options);
         }
-export function useGetUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+export function useGetFilterTasksSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetFilterTasksQuery, GetFilterTasksQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+          return Apollo.useSuspenseQuery<GetFilterTasksQuery, GetFilterTasksQueryVariables>(GetFilterTasksDocument, options);
         }
-export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
-export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
-export type GetUsersSuspenseQueryHookResult = ReturnType<typeof useGetUsersSuspenseQuery>;
-export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
-export type GetUsersQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type GetFilterTasksQueryHookResult = ReturnType<typeof useGetFilterTasksQuery>;
+export type GetFilterTasksLazyQueryHookResult = ReturnType<typeof useGetFilterTasksLazyQuery>;
+export type GetFilterTasksSuspenseQueryHookResult = ReturnType<typeof useGetFilterTasksSuspenseQuery>;
+export type GetFilterTasksQueryResult = Apollo.QueryResult<GetFilterTasksQuery, GetFilterTasksQueryVariables>;
+export type GetFilterTasksQueryVariables = Types.Exact<{
+  input: Types.FilterTaskInput;
+}>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, fullName: string, email: string, avatar?: string | null, type: Types.UserType, createdAt: any, updatedAt: any }> };
+export type GetFilterTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, pointEstimate: Types.PointEstimate, position: number, createdAt: any, status: Types.Status, dueDate: any, tags: Array<Types.TaskTag>, assignee?: { __typename?: 'User', id: string, fullName: string, createdAt: any, email: string, type: Types.UserType, updatedAt: any } | null, creator: { __typename?: 'User', id: string, fullName: string, createdAt: any, email: string, type: Types.UserType, updatedAt: any } }> };

@@ -3,24 +3,52 @@ import {
   RiNotification3Line,
   RiSearchLine,
 } from "@remixicon/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Avatar from "../avatar/avatar";
 import styles from "./search-bar.module.css";
+import { useDebounce } from "../../hooks/use-debounce";
+import type { FilterTaskInput } from "../../types/graphql";
 
-interface SearchInput {
+interface SearchBarProps {
+  onApplyFilters: (filters: FilterTaskInput) => void;
+}
+
+interface SearchFormInput {
   search: string;
 }
 
-export default function SearchBar() {
-  const { register, handleSubmit, reset, watch } = useForm<SearchInput>();
+export default function SearchBar({ onApplyFilters }: SearchBarProps) {
+  const { register, handleSubmit, reset, watch, setValue } =
+    useForm<SearchFormInput>({
+      defaultValues: {
+        search: "",
+      },
+    });
   const [isFocused, setIsFocused] = useState(false);
+  const watchSearchField = watch("search");
+  const debouncedSearch = useDebounce(watchSearchField, 500);
 
-  const searchValue = watch("search");
+  useEffect(() => {
+    if (debouncedSearch.trim() === "") {
+      onApplyFilters({});
+    } else {
+      onApplyFilters({
+        name: debouncedSearch.trim(),
+      });
+    }
+  }, [debouncedSearch]);
 
-  function onSubmit(data: SearchInput) {
-    console.log("Search query:", data.search);
+  function onSubmit(data: SearchFormInput) {
+    onApplyFilters({
+      name: data.search,
+    });
   }
+
+  const clearFilters = () => {
+    reset({ search: "" });
+    onApplyFilters({});
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -29,15 +57,17 @@ export default function SearchBar() {
         type="text"
         placeholder="Search"
         {...register("search")}
+        value={watchSearchField}
+        onChange={(e) => setValue("search", e.target.value)}
         className={styles.formInput}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
       <div className={styles.formIconContainer}>
-        {(searchValue || isFocused) && (
+        {(watchSearchField || isFocused) && (
           <RiCloseCircleLine
             className={styles.formIcon}
-            onClick={() => reset()}
+            onClick={clearFilters}
           />
         )}
         <RiNotification3Line className={styles.formIcon} />
