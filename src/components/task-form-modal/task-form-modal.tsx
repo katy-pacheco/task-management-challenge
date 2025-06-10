@@ -20,7 +20,14 @@ import LabelTags from "../label-tags/label-tags";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./task-form-modal.module.css";
-import { RiCalendarCheckLine } from "@remixicon/react";
+import {
+  RiArrowLeftDoubleLine,
+  RiArrowLeftSLine,
+  RiArrowRightDoubleLine,
+  RiArrowRightSLine,
+  RiCalendarCheckLine,
+} from "@remixicon/react";
+import { format } from "date-fns";
 
 interface TaskFormModalFormData {
   id?: string;
@@ -192,7 +199,7 @@ export default function TaskFormModal({
                 <RiCalendarCheckLine />
                 <span className={styles.buttonText}>
                   {dueDateValue
-                    ? new Date(dueDateValue).toLocaleDateString()
+                    ? format(new Date(dueDateValue), "MMM.dd yyyy")
                     : "Due Date"}
                 </span>
               </button>
@@ -208,6 +215,60 @@ export default function TaskFormModal({
                     selected={field.value ? new Date(field.value) : null}
                     dateFormat="MM/dd/yyyy"
                     className={styles.datePickerInput}
+                    todayButton="Today"
+                    minDate={new Date()}
+                    renderCustomHeader={({
+                      monthDate,
+                      decreaseMonth,
+                      increaseMonth,
+                      decreaseYear,
+                      increaseYear,
+                      prevMonthButtonDisabled,
+                      nextMonthButtonDisabled,
+                      prevYearButtonDisabled,
+                      nextYearButtonDisabled,
+                    }) => (
+                      <div className={styles.arrowContainer}>
+                        <div>
+                          <button
+                            type="button"
+                            onClick={decreaseYear}
+                            disabled={prevYearButtonDisabled}
+                          >
+                            {<RiArrowLeftDoubleLine />}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={decreaseMonth}
+                            disabled={prevMonthButtonDisabled}
+                            style={{ marginRight: "10px" }}
+                          >
+                            {<RiArrowLeftSLine />}
+                          </button>
+                        </div>
+                        <span style={{ fontSize: "1.2em", fontWeight: "bold" }}>
+                          {format(monthDate, "MMMM yyyy")}
+                        </span>
+                        <div>
+                          <button
+                            type="button"
+                            onClick={increaseMonth}
+                            disabled={nextMonthButtonDisabled}
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {<RiArrowRightSLine />}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={increaseYear}
+                            disabled={nextYearButtonDisabled}
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {<RiArrowRightDoubleLine />}
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   />
                 )}
               />
@@ -217,12 +278,16 @@ export default function TaskFormModal({
         </ModalBody>
 
         <ModalFooter>
-          <div>
-            <button type="button" onClick={handleClose}>
+          <div className={styles.wrapperButton}>
+            <button
+              type="button"
+              onClick={handleClose}
+              className={styles.cancelButton}
+            >
               Cancel
             </button>
-            <button type="submit">
-              {mode === "create" ? "Save" : "Update"}
+            <button type="submit" className={styles.submitButton}>
+              {mode === "create" ? "Create" : "Update"}
             </button>
           </div>
         </ModalFooter>

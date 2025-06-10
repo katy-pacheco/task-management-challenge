@@ -10,7 +10,7 @@
 
 .modal {
   width: 578px;
-  height: 184px;
+  max-height: 184px;
   top: 641px;
   left: 128px;
   border-radius: 8px;
