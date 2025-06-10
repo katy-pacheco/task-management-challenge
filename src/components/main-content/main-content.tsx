@@ -74,8 +74,3 @@ export default function MainContent() {
     </>
   );
 }
-function useTasksQuery(arg0: { variables: { filters: FilterTaskInput } }): {
-  refetch: any;
-} {
-  throw new Error("Function not implemented.");
-}
