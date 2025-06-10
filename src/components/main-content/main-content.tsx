@@ -11,6 +11,7 @@ import type {
   FilterTaskInput,
 } from "../../types/graphql";
 import SearchBar from "../search-bar/search-bar";
+import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
 
 export default function MainContent() {
   const [viewMode, setViewMode] = useState<number | null>(1);
@@ -30,12 +31,15 @@ export default function MainContent() {
       }
       await createTask({
         variables: {
-          input: {
-            ...data,
-          },
+          input: data,
         },
+        refetchQueries: [
+          {
+            query: GET_FILTER_TASKS,
+            variables: { input: {} },
+          },
+        ],
       });
-      console.log("Task created!");
     } catch (err) {
       console.error("Error creating task", err);
     }
@@ -69,4 +73,9 @@ export default function MainContent() {
       </div>
     </>
   );
+}
+function useTasksQuery(arg0: { variables: { filters: FilterTaskInput } }): {
+  refetch: any;
+} {
+  throw new Error("Function not implemented.");
 }
