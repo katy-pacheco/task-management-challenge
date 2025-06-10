@@ -1,8 +1,10 @@
 import {
   RiAttachment2,
   RiChat3Line,
+  RiDeleteBin6Line,
   RiMoreLine,
   RiNodeTree,
+  RiPencilLine,
 } from "@remixicon/react";
 import { formatDueDate } from "../../utils/format-date";
 import { getColorTask } from "../../utils/get-color-task";
@@ -70,6 +72,7 @@ export default function TaskCard({
                 onMouseDown={handleMenuInteraction}
                 className={styles.menuItem}
               >
+                <RiPencilLine />
                 Edit
               </button>
             </MenuItem>
@@ -81,6 +84,7 @@ export default function TaskCard({
                 onClick={(e) => handleMenuItemClick(e, onDelete)}
                 className={`${styles.menuItem} `}
               >
+                <RiDeleteBin6Line />
                 Delete
               </button>
             </MenuItem>
