@@ -10,6 +10,7 @@ import TaskFormModal from "../task-form-modal/task-form-modal";
 import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
 import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
 import type { UpdateTaskInput } from "../../types/graphql";
+import TaskListView from "../task-list-view/task-list-view";
 
 interface TaskColumnsProp {
   viewMode: number | null;
@@ -72,40 +73,39 @@ export default function TaskColumns({ viewMode }: TaskColumnsProp) {
 
   return (
     <div className={styles.taskList}>
-      {status.map((item, index) => {
-        const filteredTasks = tasks.filter(
-          (task) => task.status === item.value,
-        );
-        return (
-          <div className={styles.taskListColumn} key={index}>
-            <h2 className={styles.taskListColumnStatus}>
-              {item.label} ({filteredTasks.length})
-            </h2>
-            {viewMode === 1 ? (
-              <div>
-                {filteredTasks.length > 0 ? (
-                  filteredTasks.map((task) => (
-                    <div className={styles.taskCardWrapper} key={task.id}>
-                      <TaskCard
-                        title={task.name}
-                        pointEstimate={task.pointEstimate}
-                        dueDate={task.dueDate}
-                        taskTags={task.tags}
-                        onEdit={() => handleEdit(task)}
-                        onDelete={() => handleDelete(task)}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <p>No tasks in {item.label}</p>
-                )}
-              </div>
-            ) : (
-              viewMode === 0 && <p>No tasks in {item.label}</p>
-            )}
-          </div>
-        );
-      })}
+      {viewMode === 1 ? (
+        status.map((item, index) => {
+          const filteredTasks = tasks.filter(
+            (task) => task.status === item.value,
+          );
+          return (
+            <div className={styles.taskListColumn} key={index}>
+              <h2 className={styles.taskListColumnStatus}>
+                {item.label} ({filteredTasks.length})
+              </h2>
+              {filteredTasks.length > 0 ? (
+                filteredTasks.map((task) => (
+                  <div className={styles.taskCardWrapper} key={task.id}>
+                    <TaskCard
+                      title={task.name}
+                      pointEstimate={task.pointEstimate}
+                      dueDate={task.dueDate}
+                      taskTags={task.tags}
+                      onEdit={() => handleEdit(task)}
+                      onDelete={() => handleDelete(task)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No tasks in {item.label}</p>
+              )}
+            </div>
+          );
+        })
+      ) : (
+        <TaskListView tasks={tasks} />
+      )}
+
       <TaskFormModal
         open={openModal}
         onClose={() => setOpenModal(false)}
