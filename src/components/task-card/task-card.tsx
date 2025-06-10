@@ -38,33 +38,47 @@ export default function TaskCard({
   onEdit,
   onDelete,
 }: TaskProps) {
+  const handleMenuInteraction = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  const handleMenuItemClick = (e: React.MouseEvent, action?: () => void) => {
+    e.stopPropagation();
+    e.preventDefault();
+    action?.();
+  };
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>
         <h3>{title}</h3>
         <Menu as="div" className={styles.menuContainer}>
-          <MenuButton as="div" className={styles.moreButton}>
+          <MenuButton
+            as="div"
+            className={styles.moreButton}
+            onMouseDown={handleMenuInteraction}
+            onTouchStart={handleMenuInteraction}
+            onClick={handleMenuInteraction}
+            style={{ touchAction: "none" }}
+          >
             <RiMoreLine size={"24"} />
           </MenuButton>
           <MenuItems className={styles.menuItems}>
             <MenuItem>
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onEdit?.();
-                }}
-                className={`${styles.menuItem}`}
+                onClick={(e) => handleMenuItemClick(e, onEdit)}
+                onMouseDown={handleMenuInteraction}
+                className={styles.menuItem}
               >
                 Edit
               </button>
             </MenuItem>
             <MenuItem>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete?.();
-                }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
+                style={{ touchAction: "none" }}
+                onClick={(e) => handleMenuItemClick(e, onDelete)}
                 className={`${styles.menuItem} `}
               >
                 Delete

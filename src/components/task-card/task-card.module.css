@@ -98,3 +98,7 @@
   color: var(--neutral-color-2);
   background: transparent;
 }
+
+.menuItem {
+  z-index: 50;
+}
