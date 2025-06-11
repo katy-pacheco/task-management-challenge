@@ -149,53 +149,70 @@ export default function TaskFormModal({
             {...register("name")}
             className={styles.taskName}
           />
-          {errors.name && <span>{errors.name.message as string}</span>}
+          {errors.name && (
+            <span className={styles.error}>
+              {errors.name.message as string}
+            </span>
+          )}
         </ModalHeader>
 
         <ModalBody>
           <div className={styles.formFields}>
             {/* PointEstimate */}
-            <Controller
-              name="pointEstimate"
-              control={control}
-              render={({ field }) => (
-                <PointEstimateDropdown
-                  value={field.value}
-                  onChange={field.onChange}
-                />
+            <div className={styles.formField}>
+              <Controller
+                name="pointEstimate"
+                control={control}
+                render={({ field }) => (
+                  <PointEstimateDropdown
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.pointEstimate && (
+                <span className={styles.error}>
+                  {errors.pointEstimate.message as string}
+                </span>
               )}
-            />
-            {errors.pointEstimate && (
-              <span>{errors.pointEstimate.message as string}</span>
-            )}
+            </div>
 
             {/* Assignee */}
-            <Controller
-              name="assigneeId"
-              control={control}
-              render={({ field }) => (
-                <AssignToDropdown
-                  value={field.value ?? ""}
-                  onChange={field.onChange}
-                />
+            <div className={styles.formField}>
+              <Controller
+                name="assigneeId"
+                control={control}
+                render={({ field }) => (
+                  <AssignToDropdown
+                    value={field.value ?? ""}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.assigneeId && (
+                <span className={styles.error}>
+                  {errors.assigneeId.message as string}
+                </span>
               )}
-            />
-            {errors.assigneeId && (
-              <span>{errors.assigneeId.message as string}</span>
-            )}
+            </div>
 
             {/* Tags */}
-            <Controller
-              name="tags"
-              control={control}
-              render={({ field }) => (
-                <LabelTags value={field.value} onChange={field.onChange} />
+            <div className={styles.formField}>
+              <Controller
+                name="tags"
+                control={control}
+                render={({ field }) => (
+                  <LabelTags value={field.value} onChange={field.onChange} />
+                )}
+              />
+              {errors.tags && (
+                <span className={styles.error}>
+                  {errors.tags.message as string}
+                </span>
               )}
-            />
-            {errors.tags && <span>{errors.tags.message as string}</span>}
-
+            </div>
             {/* Due Date */}
-            <div className={styles.datePickerContainer}>
+            <div>
               <button
                 type="button"
                 onClick={openDatePicker}
@@ -208,7 +225,6 @@ export default function TaskFormModal({
                     : "Due Date"}
                 </span>
               </button>
-
               <Controller
                 name="dueDate"
                 control={control}
@@ -279,7 +295,9 @@ export default function TaskFormModal({
                 )}
               />
               {errors.dueDate && (
-                <span>{errors.dueDate.message as string}</span>
+                <span className={styles.errorDate}>
+                  {errors.dueDate.message as string}
+                </span>
               )}
             </div>
           </div>

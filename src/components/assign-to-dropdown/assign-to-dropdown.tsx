@@ -4,10 +4,10 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import styles from "./assign-to-dropdown.module.css";
 import { RiUser3Fill } from "@remixicon/react";
-import type { User } from "../../types/graphql";
 import { useGetUsersQuery } from "../../graphql/queries/get-users.graphql.generated";
+import styles from "./assign-to-dropdown.module.css";
+import type { User } from "../../types/graphql";
 
 interface AssignToDropdownProps {
   value?: string; // assigneeId
