@@ -11,7 +11,7 @@ import { getColorTask } from "../../utils/get-color-task";
 import Avatar from "../avatar/avatar";
 import Chip from "../chip/chip";
 import styles from "./task-card.module.css";
-import type { PointEstimate, TaskTag } from "../../types/graphql";
+import type { PointEstimate, TaskTag, User } from "../../types/graphql";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { getTaskTagLabel } from "../../utils/get-task-tag-label";
 
@@ -28,6 +28,7 @@ interface TaskProps {
   pointEstimate: PointEstimate;
   dueDate: string;
   taskTags: TaskTag[];
+  assignee?: User;
   onEdit?: () => void;
   onDelete?: () => void;
 }
@@ -37,6 +38,7 @@ export default function TaskCard({
   pointEstimate,
   dueDate,
   taskTags,
+  assignee,
   onEdit,
   onDelete,
 }: TaskProps) {
@@ -112,7 +114,7 @@ export default function TaskCard({
           ))}
       </div>
       <div className={styles.cardFooter}>
-        <Avatar size="small" />
+        <Avatar size="small" user={assignee} />
         <div className={styles.cardFooterIcons}>
           <RiAttachment2 />
           <span>

@@ -12,11 +12,14 @@ import type {
 } from "../../types/graphql";
 import SearchBar from "../search-bar/search-bar";
 import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
+import { useGetProfileQuery } from "../../graphql/queries/get-profile.graphql.generated";
 
 export default function MainContent() {
   const [viewMode, setViewMode] = useState<number | null>(1);
   const [openModal, setOpenModal] = useState(false);
   const [createTask] = useCreateTaskMutation();
+  const { data: profileData } = useGetProfileQuery();
+  const currentUser = profileData?.profile;
   const [filters, setFilters] = useState<FilterTaskInput>({});
 
   const handleApplyFilters = (filters: FilterTaskInput) => {
@@ -47,7 +50,7 @@ export default function MainContent() {
 
   return (
     <>
-      <SearchBar onApplyFilters={handleApplyFilters} />
+      <SearchBar user={currentUser} onApplyFilters={handleApplyFilters} />
       <div className={styles.mainContent}>
         {/* Topbar */}
         <div role="toolbar" aria-label="Top bar" className={styles.topBar}>

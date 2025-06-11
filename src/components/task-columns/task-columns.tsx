@@ -174,6 +174,7 @@ export default function TaskColumns({ viewMode, filters }: TaskColumnsProp) {
                             pointEstimate={task.pointEstimate}
                             dueDate={task.dueDate}
                             taskTags={task.tags}
+                            assignee={task.assignee ?? undefined}
                             onEdit={() => handleEdit(task)}
                             onDelete={() => handleDelete(task)}
                           />

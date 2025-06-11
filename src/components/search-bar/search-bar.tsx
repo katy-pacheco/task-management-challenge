@@ -8,9 +8,11 @@ import { useForm } from "react-hook-form";
 import Avatar from "../avatar/avatar";
 import styles from "./search-bar.module.css";
 import { useDebounce } from "../../hooks/use-debounce";
-import type { FilterTaskInput } from "../../types/graphql";
+import type { FilterTaskInput, User } from "../../types/graphql";
+import Profile from "../profile/profile";
 
 interface SearchBarProps {
+  user?: User;
   onApplyFilters: (filters: FilterTaskInput) => void;
 }
 
@@ -18,7 +20,7 @@ interface SearchFormInput {
   search: string;
 }
 
-export default function SearchBar({ onApplyFilters }: SearchBarProps) {
+export default function SearchBar({ onApplyFilters, user }: SearchBarProps) {
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<SearchFormInput>({
       defaultValues: {
@@ -28,6 +30,7 @@ export default function SearchBar({ onApplyFilters }: SearchBarProps) {
   const [isFocused, setIsFocused] = useState(false);
   const watchSearchField = watch("search");
   const debouncedSearch = useDebounce(watchSearchField, 500);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     if (debouncedSearch.trim() === "") {
@@ -71,7 +74,14 @@ export default function SearchBar({ onApplyFilters }: SearchBarProps) {
           />
         )}
         <RiNotification3Line className={styles.formIcon} />
-        <Avatar size={"medium"} />
+        <div style={{ position: "relative" }}>
+          <Avatar
+            size={"medium"}
+            onClick={() => setShowProfile((prev) => !prev)}
+            user={user}
+          />
+          {showProfile && <Profile onClose={() => setShowProfile(false)} />}
+        </div>
       </div>
     </form>
   );
