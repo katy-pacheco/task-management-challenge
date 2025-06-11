@@ -1,3 +1,4 @@
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
   RiAttachment2,
   RiChat3Line,
@@ -8,12 +9,11 @@ import {
 } from "@remixicon/react";
 import { formatDueDate } from "../../utils/format-date";
 import { getColorTask } from "../../utils/get-color-task";
+import { getTaskTagLabel } from "../../utils/get-task-tag-label";
 import Avatar from "../avatar/avatar";
 import Chip from "../chip/chip";
 import styles from "./task-card.module.css";
 import type { PointEstimate, TaskTag, User } from "../../types/graphql";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { getTaskTagLabel } from "../../utils/get-task-tag-label";
 
 const pointEstimateMap: Record<PointEstimate, string> = {
   ZERO: "0",
@@ -47,11 +47,10 @@ export default function TaskCard({
     e.preventDefault();
   };
 
-  const handleMenuItemClick = (e: React.MouseEvent, action?: () => void) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const handleMenuItemClick = (action?: () => void) => {
     action?.();
   };
+
   return (
     <div className={styles.card}>
       <div className={styles.cardTitle}>
@@ -70,7 +69,7 @@ export default function TaskCard({
           <MenuItems className={styles.menuItems}>
             <MenuItem>
               <button
-                onClick={(e) => handleMenuItemClick(e, onEdit)}
+                onClick={() => handleMenuItemClick(onEdit)}
                 onMouseDown={handleMenuInteraction}
                 className={styles.menuItem}
               >
@@ -83,7 +82,7 @@ export default function TaskCard({
                 onMouseDown={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
                 style={{ touchAction: "none" }}
-                onClick={(e) => handleMenuItemClick(e, onDelete)}
+                onClick={() => handleMenuItemClick(onDelete)}
                 className={`${styles.menuItem} `}
               >
                 <RiDeleteBin6Line />

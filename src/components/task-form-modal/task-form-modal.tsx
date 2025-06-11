@@ -1,4 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  RiArrowLeftDoubleLine,
+  RiArrowLeftSLine,
+  RiArrowRightDoubleLine,
+  RiArrowRightSLine,
+  RiCalendarCheckLine,
+} from "@remixicon/react";
+import { format } from "date-fns";
 import { useEffect, useRef } from "react";
+import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import {
   PointEstimate,
@@ -8,28 +18,18 @@ import {
   type Task,
   type UpdateTaskInput,
 } from "../../types/graphql";
+import { taskFormSchema } from "../../validation/task-form";
+import AssignToDropdown from "../assign-to-dropdown/assign-to-dropdown";
+import LabelTags from "../label-tags/label-tags";
+import PointEstimateDropdown from "../point-estimate/point-estimate-dropdown";
 import {
   ModalBody,
   ModalFooter,
   ModalHeader,
   ModalRoot,
 } from "../task-modal/task-modal";
-import PointEstimateDropdown from "../point-estimate/point-estimate-dropdown";
-import AssignToDropdown from "../assign-to-dropdown/assign-to-dropdown";
-import LabelTags from "../label-tags/label-tags";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./task-form-modal.module.css";
-import {
-  RiArrowLeftDoubleLine,
-  RiArrowLeftSLine,
-  RiArrowRightDoubleLine,
-  RiArrowRightSLine,
-  RiCalendarCheckLine,
-} from "@remixicon/react";
-import { format } from "date-fns";
-import { taskFormSchema } from "../../validation/task-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 interface TaskFormModalFormData {
   id?: string;

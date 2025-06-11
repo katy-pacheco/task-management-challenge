@@ -20,3 +20,9 @@
   background: var(--neutral-color-3);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
+
+.modal * {
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
