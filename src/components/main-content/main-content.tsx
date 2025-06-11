@@ -13,6 +13,7 @@ import type {
 import SearchBar from "../search-bar/search-bar";
 import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
 import { useGetProfileQuery } from "../../graphql/queries/get-profile.graphql.generated";
+import toast from "react-hot-toast";
 
 export default function MainContent() {
   const [viewMode, setViewMode] = useState<number | null>(1);
@@ -32,18 +33,26 @@ export default function MainContent() {
       if ("id" in data) {
         return;
       }
-      await createTask({
-        variables: {
-          input: data,
-        },
-        refetchQueries: [
-          {
-            query: GET_FILTER_TASKS,
-            variables: { input: {} },
+      await toast.promise(
+        createTask({
+          variables: {
+            input: data,
           },
-        ],
-      });
+          refetchQueries: [
+            {
+              query: GET_FILTER_TASKS,
+              variables: { input: {} },
+            },
+          ],
+        }),
+        {
+          loading: "Creating task...",
+          success: "Task created successfully!",
+          error: "Failed to create task. Please try again.",
+        },
+      );
     } catch (err) {
+      toast.error("Failed to create task. Please try again.");
       console.error("Error creating task", err);
     }
   };

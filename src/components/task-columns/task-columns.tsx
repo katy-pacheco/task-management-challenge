@@ -1,17 +1,3 @@
-import { useEffect, useState } from "react";
-import { type Task } from "../../graphql/queries/get-task.graphql.generated";
-import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
-import TaskCard from "../task-card/task-card";
-import styles from "./task-columns.module.css";
-import TaskFormModal from "../task-form-modal/task-form-modal";
-import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
-import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
-import type {
-  FilterTaskInput,
-  Status,
-  UpdateTaskInput,
-} from "../../types/graphql";
-import TaskListView from "../task-list-view/task-list-view";
 import {
   DndContext,
   DragOverlay,
@@ -21,9 +7,25 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
+import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
+import { useGetFilterTasksQuery } from "../../graphql/queries/filter-task.graphql.generated";
+import { type Task } from "../../graphql/queries/get-task.graphql.generated";
+import type {
+  FilterTaskInput,
+  Status,
+  UpdateTaskInput,
+} from "../../types/graphql";
 import Draggable from "../draggable/draggable";
 import { Droppable } from "../droppable/droppable";
-import { useGetFilterTasksQuery } from "../../graphql/queries/filter-task.graphql.generated";
+import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
+import TaskCard from "../task-card/task-card";
+import TaskFormModal from "../task-form-modal/task-form-modal";
+import TaskListView from "../task-list-view/task-list-view";
+import styles from "./task-columns.module.css";
+import { confirmAlert } from "react-confirm-alert";
 
 interface TaskColumnsProp {
   viewMode: number | null;
@@ -64,31 +66,70 @@ export default function TaskColumns({ viewMode, filters }: TaskColumnsProp) {
   const handleSubmit = async (data: Omit<UpdateTaskInput, "id">) => {
     if (!selectedTask) return;
     try {
-      await updateTask({
-        variables: {
-          input: {
-            id: selectedTask.id,
-            ...data,
+      await toast.promise(
+        updateTask({
+          variables: {
+            input: {
+              id: selectedTask.id,
+              ...data,
+            },
           },
+        }),
+        {
+          loading: "Updating task...",
+          success: "Task updated successfully!",
+          error: "Failed to update task. Please try again.",
         },
-      });
-      setOpenModal(false);
+      );
     } catch (err) {
+      toast.error("Failed to update task. Please try again.");
       console.error("Error updating task", err);
     }
   };
 
-  const handleDelete = async (task: Task) => {
-    try {
-      await deleteTask({
-        variables: {
-          input: { id: task.id },
-        },
-      });
-      await refetch();
-    } catch (err) {
-      console.error("Error deleting task", err);
-    }
+  const handleDelete = (task: Task) => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className={styles.dialog}>
+            <h2 className={styles.title}>Confirm Deletion</h2>
+            <p className={styles.message}>
+              Are you sure you want to delete "{task.name}"?
+            </p>
+            <div className={styles.actions}>
+              <button className={styles.cancel} onClick={onClose}>
+                Cancel
+              </button>
+              <button
+                className={styles.confirm}
+                onClick={async () => {
+                  onClose();
+                  try {
+                    await toast.promise(
+                      deleteTask({
+                        variables: {
+                          input: { id: task.id },
+                        },
+                      }),
+                      {
+                        loading: "Deleting task...",
+                        success: "Task deleted successfully!",
+                        error: "Failed to delete task. Please try again.",
+                      },
+                    );
+                    await refetch();
+                  } catch (err) {
+                    console.error("Error deleting task", err);
+                  }
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        );
+      },
+    });
   };
 
   const sensors = useSensors(
