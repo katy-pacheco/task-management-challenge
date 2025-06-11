@@ -28,15 +28,17 @@ import {
   RiCalendarCheckLine,
 } from "@remixicon/react";
 import { format } from "date-fns";
+import { taskFormSchema } from "../../validation/task-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface TaskFormModalFormData {
   id?: string;
   name: string;
-  dueDate?: string;
+  dueDate: string;
   pointEstimate: PointEstimate;
   status: Status;
   tags: TaskTag[];
-  assigneeId?: string;
+  assigneeId: string;
 }
 
 interface TaskFormProps {
@@ -62,6 +64,7 @@ export default function TaskFormModal({
     watch,
     formState: { errors },
   } = useForm<TaskFormModalFormData>({
+    resolver: zodResolver(taskFormSchema),
     defaultValues: {
       name: "",
       dueDate: "",
@@ -81,9 +84,7 @@ export default function TaskFormModal({
       reset({
         id: task.id,
         name: task.name,
-        dueDate: task.dueDate
-          ? new Date(task.dueDate).toISOString().split("T")[0]
-          : undefined,
+        dueDate: task.dueDate,
         pointEstimate: task.pointEstimate,
         status: task.status,
         tags: task.tags,
@@ -145,10 +146,10 @@ export default function TaskFormModal({
           <input
             type="text"
             placeholder="Task title"
-            {...register("name", { required: true })}
+            {...register("name")}
             className={styles.taskName}
           />
-          {errors.name && <span>Title is required</span>}
+          {errors.name && <span>{errors.name.message as string}</span>}
         </ModalHeader>
 
         <ModalBody>
@@ -157,7 +158,6 @@ export default function TaskFormModal({
             <Controller
               name="pointEstimate"
               control={control}
-              rules={{ required: true }}
               render={({ field }) => (
                 <PointEstimateDropdown
                   value={field.value}
@@ -165,12 +165,14 @@ export default function TaskFormModal({
                 />
               )}
             />
+            {errors.pointEstimate && (
+              <span>{errors.pointEstimate.message as string}</span>
+            )}
 
             {/* Assignee */}
             <Controller
               name="assigneeId"
               control={control}
-              rules={{ required: true }}
               render={({ field }) => (
                 <AssignToDropdown
                   value={field.value ?? ""}
@@ -178,16 +180,19 @@ export default function TaskFormModal({
                 />
               )}
             />
+            {errors.assigneeId && (
+              <span>{errors.assigneeId.message as string}</span>
+            )}
 
             {/* Tags */}
             <Controller
               name="tags"
               control={control}
-              rules={{ required: true }}
               render={({ field }) => (
                 <LabelTags value={field.value} onChange={field.onChange} />
               )}
             />
+            {errors.tags && <span>{errors.tags.message as string}</span>}
 
             {/* Due Date */}
             <div className={styles.datePickerContainer}>
@@ -207,11 +212,12 @@ export default function TaskFormModal({
               <Controller
                 name="dueDate"
                 control={control}
-                rules={{ required: true }}
                 render={({ field }) => (
                   <DatePicker
                     ref={datePickerRef}
-                    onChange={(date: Date | null) => field.onChange(date)}
+                    onChange={(date: Date | null) =>
+                      field.onChange(date ? date.toISOString() : "")
+                    }
                     selected={field.value ? new Date(field.value) : null}
                     dateFormat="MM/dd/yyyy"
                     className={styles.datePickerInput}
@@ -272,7 +278,9 @@ export default function TaskFormModal({
                   />
                 )}
               />
-              {errors.dueDate && <span>Due date is required</span>}
+              {errors.dueDate && (
+                <span>{errors.dueDate.message as string}</span>
+              )}
             </div>
           </div>
         </ModalBody>

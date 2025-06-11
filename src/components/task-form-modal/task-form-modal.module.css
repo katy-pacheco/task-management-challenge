@@ -1,5 +1,7 @@
 .taskName {
-  width: 546px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   height: 32px;
   margin: 0px 16px;
   background: transparent;
@@ -74,25 +76,26 @@
   justify-content: flex-start;
   gap: 8px;
   margin-top: 16px;
-  max-width: 100%;
+  width: 100%;
   min-width: 120px;
   padding: 0px 8px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   height: 32px;
 
   background-color: rgba(148, 151, 154, 0.1);
   color: var(--neutral-color-1);
-  font-weight: var(--body-weight-bold);
   font-size: var(--body-m-size);
-  letter-spacing: var(--body-letter-spacing);
 }
 
 .buttonText {
-  min-width: 40px;
+  display: block;
+  max-width: 148px;
+  overflow-x: auto;
   white-space: nowrap;
+  scrollbar-width: none;
 }
 
 .arrowContainer {
@@ -117,6 +120,12 @@
   color: var(--neutral-color-1);
   border: none;
   background: transparent;
+}
+
+.datePickerContainer {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 :global(.react-datepicker) {
