@@ -1,8 +1,8 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { PointEstimate } from "../../types/graphql";
-import styles from "./point-estimate-dropdown.module.css";
-import { getPointEstimateNumeric } from "../../utils/get-point-estimate-numeric";
 import { RiIncreaseDecreaseFill } from "@remixicon/react";
+import { PointEstimate } from "../../types/graphql";
+import { getPointEstimateNumeric } from "../../utils/get-point-estimate-numeric";
+import styles from "./point-estimate-dropdown.module.css";
 
 interface PointEstimateDropdownProps {
   value: PointEstimate | null;

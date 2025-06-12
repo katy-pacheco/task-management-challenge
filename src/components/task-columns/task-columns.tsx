@@ -8,16 +8,12 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import toast from "react-hot-toast";
 import { useDeleteTaskMutation } from "../../graphql/mutations/delete-task/delete-task.graphql.generated";
 import { useUpdateTaskMutation } from "../../graphql/mutations/update-task/update-task.graphql.generated";
 import { useGetFilterTasksQuery } from "../../graphql/queries/filter-task.graphql.generated";
 import { type Task } from "../../graphql/queries/get-task.graphql.generated";
-import type {
-  FilterTaskInput,
-  Status,
-  UpdateTaskInput,
-} from "../../types/graphql";
 import Draggable from "../draggable/draggable";
 import { Droppable } from "../droppable/droppable";
 import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
@@ -25,7 +21,11 @@ import TaskCard from "../task-card/task-card";
 import TaskFormModal from "../task-form-modal/task-form-modal";
 import TaskListView from "../task-list-view/task-list-view";
 import styles from "./task-columns.module.css";
-import { confirmAlert } from "react-confirm-alert";
+import type {
+  FilterTaskInput,
+  Status,
+  UpdateTaskInput,
+} from "../../types/graphql";
 
 interface TaskColumnsProp {
   viewMode: number | null;

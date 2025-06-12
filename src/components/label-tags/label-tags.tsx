@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Combobox,
   ComboboxButton,
@@ -6,10 +5,11 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import styles from "./label-tags.module.css";
 import { RiAddFill, RiPriceTag3Fill } from "@remixicon/react";
+import { useState } from "react";
 import { TaskTag } from "../../types/graphql";
 import { getTaskTagLabel } from "../../utils/get-task-tag-label";
+import styles from "./label-tags.module.css";
 
 interface LabelTagsProps {
   value: TaskTag[];

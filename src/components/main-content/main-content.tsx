@@ -1,19 +1,19 @@
 import { RiAddLine } from "@remixicon/react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useCreateTaskMutation } from "../../graphql/mutations/create-task/create-task.graphql.generated";
+import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
+import { useGetProfileQuery } from "../../graphql/queries/get-profile.graphql.generated";
+import SearchBar from "../search-bar/search-bar";
 import SwitchButton from "../switch-button/switch-button";
 import TaskColumns from "../task-columns/task-columns";
 import TaskFormModal from "../task-form-modal/task-form-modal";
 import styles from "./main-content.module.css";
-import { useCreateTaskMutation } from "../../graphql/mutations/create-task/create-task.graphql.generated";
 import type {
   CreateTaskInput,
   UpdateTaskInput,
   FilterTaskInput,
 } from "../../types/graphql";
-import SearchBar from "../search-bar/search-bar";
-import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
-import { useGetProfileQuery } from "../../graphql/queries/get-profile.graphql.generated";
-import toast from "react-hot-toast";
 
 export default function MainContent() {
   const [viewMode, setViewMode] = useState<number | null>(1);

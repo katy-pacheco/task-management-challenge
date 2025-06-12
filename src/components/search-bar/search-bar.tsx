@@ -5,11 +5,11 @@ import {
 } from "@remixicon/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Avatar from "../avatar/avatar";
-import styles from "./search-bar.module.css";
 import { useDebounce } from "../../hooks/use-debounce";
-import type { FilterTaskInput, User } from "../../types/graphql";
+import Avatar from "../avatar/avatar";
 import Profile from "../profile/profile";
+import styles from "./search-bar.module.css";
+import type { FilterTaskInput, User } from "../../types/graphql";
 
 interface SearchBarProps {
   user?: User;

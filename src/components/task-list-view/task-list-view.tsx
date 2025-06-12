@@ -1,10 +1,10 @@
-import { useState } from "react";
-import styles from "./task-list-view.module.css";
-import { formatDueDate } from "../../utils/format-date";
-import type { Task } from "../../types/graphql";
-import { getPointEstimateNumeric } from "../../utils/get-point-estimate-numeric";
 import { RiArrowDownSLine, RiArrowRightSLine } from "@remixicon/react";
+import { useState } from "react";
+import { formatDueDate } from "../../utils/format-date";
+import { getPointEstimateNumeric } from "../../utils/get-point-estimate-numeric";
 import { getTaskTagLabel } from "../../utils/get-task-tag-label";
+import styles from "./task-list-view.module.css";
+import type { Task } from "../../types/graphql";
 
 interface TaskListProp {
   tasks: Task[];
