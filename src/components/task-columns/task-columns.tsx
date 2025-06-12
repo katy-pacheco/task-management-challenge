@@ -16,6 +16,7 @@ import { useGetFilterTasksQuery } from "../../graphql/queries/filter-task.graphq
 import { type Task } from "../../graphql/queries/get-task.graphql.generated";
 import Draggable from "../draggable/draggable";
 import { Droppable } from "../droppable/droppable";
+import ErrorMessage from "../error-message/error-message";
 import SkeletonKanbanBoard from "../skeleton-kanban-board/skeleton-kaban-board";
 import TaskCard from "../task-card/task-card";
 import TaskFormModal from "../task-form-modal/task-form-modal";
@@ -186,7 +187,9 @@ export default function TaskColumns({ viewMode, filters }: TaskColumnsProp) {
   };
 
   if (loading) return <SkeletonKanbanBoard />;
-  if (error) return <p>Error :</p>;
+  if (error) {
+    return <ErrorMessage message={error.message || "Error loading tasks."} />;
+  }
 
   return (
     <DndContext
