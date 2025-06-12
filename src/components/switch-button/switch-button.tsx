@@ -1,31 +1,25 @@
 import { RiGalleryView2, RiMenuLine } from "@remixicon/react";
+import { useViewMode } from "../../context/view-mode";
 import styles from "./switch-button.module.css";
 
-interface SwitchButtonProps {
-  selectedItem: number | null;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (_: number) => void;
-}
+export default function SwitchButton() {
+  const { viewMode, setViewMode } = useViewMode();
 
-export default function SwitchButton({
-  selectedItem,
-  onChange,
-}: SwitchButtonProps) {
   return (
     <div className={styles.topBarViews}>
       <button
         type="button"
         aria-label="tree view"
-        onClick={() => onChange(0)}
-        className={`${styles.topBarButton} ${selectedItem === 0 ? styles.selected : ""}`}
+        onClick={() => setViewMode(2)}
+        className={`${styles.topBarButton} ${viewMode === 2 ? styles.selected : ""}`}
       >
         <RiMenuLine />
       </button>
       <button
         type="button"
         aria-label="dashboard view"
-        onClick={() => onChange(1)}
-        className={`${styles.topBarButton} ${selectedItem === 1 ? styles.selected : ""}`}
+        onClick={() => setViewMode(0)}
+        className={`${styles.topBarButton} ${viewMode === 0 ? styles.selected : ""}`}
       >
         <RiGalleryView2 />
       </button>

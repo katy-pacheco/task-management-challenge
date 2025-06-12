@@ -6,8 +6,8 @@ import { GET_FILTER_TASKS } from "../../graphql/queries/filter-task.graphql";
 import { useGetProfileQuery } from "../../graphql/queries/get-profile.graphql.generated";
 import SearchBar from "../search-bar/search-bar";
 import SwitchButton from "../switch-button/switch-button";
-import TaskColumns from "../task-columns/task-columns";
 import TaskFormModal from "../task-form-modal/task-form-modal";
+import TasksView from "../tasks-view/tasks-view";
 import styles from "./main-content.module.css";
 import type {
   CreateTaskInput,
@@ -16,7 +16,6 @@ import type {
 } from "../../types/graphql";
 
 export default function MainContent() {
-  const [viewMode, setViewMode] = useState<number | null>(1);
   const [openModal, setOpenModal] = useState(false);
   const [createTask] = useCreateTaskMutation();
   const { data: profileData } = useGetProfileQuery();
@@ -63,7 +62,7 @@ export default function MainContent() {
       <div className={styles.mainContent}>
         {/* Topbar */}
         <div role="toolbar" aria-label="Top bar" className={styles.topBar}>
-          <SwitchButton selectedItem={viewMode} onChange={setViewMode} />
+          <SwitchButton />
           <button
             type="button"
             aria-label="Add task"
@@ -74,7 +73,7 @@ export default function MainContent() {
           </button>
         </div>
         {/* Tasks columns */}
-        <TaskColumns viewMode={viewMode} filters={filters} />
+        <TasksView filters={filters} />
 
         <TaskFormModal
           open={openModal}

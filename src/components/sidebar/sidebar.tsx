@@ -7,8 +7,8 @@ import {
   RiSettings4Line,
   RiTimeLine,
 } from "@remixicon/react";
-import { useState } from "react";
 import logo from "../../assets/Vector.svg";
+import { useViewMode } from "../../context/view-mode";
 import styles from "./sidebar.module.css";
 
 const navItems = [
@@ -25,7 +25,7 @@ const navItems = [
 ];
 
 export default function Sidebar() {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const { viewMode, setViewMode } = useViewMode();
 
   return (
     <nav className={styles.sidebar}>
@@ -36,11 +36,11 @@ export default function Sidebar() {
         {navItems.map((item, index) => (
           <li
             key={index}
-            onClick={() => setSelectedItem(index)}
-            className={`${styles.sidebarNavItem} ${index === selectedItem ? styles.selected : ""}`}
+            onClick={() => setViewMode(index)}
+            className={`${styles.sidebarNavItem} ${index === viewMode ? styles.selected : ""}`}
             tabIndex={0}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") setSelectedItem(index);
+              if (e.key === "Enter" || e.key === " ") setViewMode(index);
             }}
           >
             {item.icon}
